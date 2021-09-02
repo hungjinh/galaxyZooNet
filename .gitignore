@@ -3,6 +3,7 @@
 notebooks/*.pkl
 notebooks/*.npy
 notebooks/explore/*
+*.csv
 
 # Compiled source
 *.o
