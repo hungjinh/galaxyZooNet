@@ -1,9 +1,11 @@
 # specific ignore files for this repo
 *.pdf
-notebooks/*.pkl
-notebooks/*.npy
-notebooks/explore/*
+*.pkl
+*.npy
 *.csv
+notebooks/explore/*
+experiment/resnet50/run*
+test
 
 # Compiled source
 *.o

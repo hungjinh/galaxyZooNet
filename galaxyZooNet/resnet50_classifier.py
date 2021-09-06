@@ -1,0 +1,228 @@
+import os
+import time
+import pickle
+
+from data_kits import data_split, GalaxyZooDataset, transforms_galaxy
+from torch.utils.data import DataLoader
+
+import copy
+import torch
+import torch.nn as nn
+import torchvision
+import torch.optim as optim
+
+class ResNet50_Classifier():
+    def __init__(self, config):
+        
+        self._setup(config)
+        self._prepare_data()
+        self._build_model(self.pretrained)
+        self._define_loss()
+        self._init_optimizer()
+
+    def _setup(self, config):
+        
+        print('------ Parameters ------')
+        for key in config:
+            setattr(self, key, config[key])
+            print(f'{key} :', config[key])
+
+        self.is_cuda = torch.cuda.is_available()
+        self.cuda = self.is_cuda & self.cuda
+        self.device = torch.device(f'cuda:{self.gpu_device}' if self.cuda else "cpu")
+
+        self.dir_exp = os.path.join(self.dir_output, self.exp_name)
+        self.file_trainInfo = os.path.join(self.dir_exp, 'trainInfo.pkl')
+        self.file_stateInfo = os.path.join(self.dir_exp, 'stateInfo.pth')
+ 
+    def _init_storage(self):
+        '''initialize storage dictionary and directory to save training information'''
+        
+        # ------ create storage directory ------
+        print('\n------ Create experiment directory ------\n')
+        try: 
+            os.makedirs(self.dir_exp)
+        except (FileExistsError, OSError) as err:
+            raise FileExistsError(f'Default save directory {self.dir_exp} already exit. Change exp_name!') from err
+        print(f'Training information will be stored at :\n \t {self.dir_exp}')
+
+        # ------ trainInfo ------
+        save_key = ['train_loss', 'train_acc', 'valid_loss', 'valid_acc',
+                    'epoch_train_loss', 'epoch_train_acc', 'epoch_valid_loss', 'epoch_valid_acc', 'lr']
+        self.trainInfo = {}
+        for key in save_key:
+            self.trainInfo[key] = []
+
+        # ------ stateInfo ------
+        self.statInfo = {}
+    
+    def _save_checkpoint(self):
+
+        # ------ stateInfo ------
+        with open(self.file_trainInfo, 'wb') as handle:
+            pickle.dump(self.trainInfo, handle)
+        
+        self.statInfo['epoch'] = self.current_epoch
+        self.statInfo['model_state_dict'] = self.model.state_dict()
+        self.statInfo['optimizer_state_dict'] = self.optimizer.state_dict()
+        self.statInfo['best_epoch'] = self.best_epoch
+        self.statInfo['best_model_wts'] = self.best_model_wts
+        torch.save(self.statInfo, self.file_stateInfo)
+    
+    def _load_checkpoint(self):
+
+        self.statInfo = torch.load(self.file_stateInfo)
+        self.trainInfo = pickle.load(open(self.file_trainInfo, 'rb'))
+
+    def _gen_Dset_Dloader(self, df, transform):
+        dataset = GalaxyZooDataset(df, self.dir_image, transform=transform, label_tag=self.label_tag)
+        dataloader = DataLoader(dataset, batch_size=self.batch_size, shuffle=True, num_workers=self.workers)
+        return dataset, dataloader
+
+    def _prepare_data(self):
+        
+        self.df = {}
+        self.df['train'], self.df['valid'], self.df['test'] = data_split(self.file_csv, 
+                                                                        self.f_train, self.f_valid, self.f_test,
+                                                                        random_state=self.seed, stats=False)
+        self.transform = transforms_galaxy(self.input_size, self.norm_mean, self.norm_std)
+
+        self.dataset = {}
+        self.dataloader = {}
+        for key in ['train', 'valid', 'test']:
+            self.dataset[key], self.dataloader[key] = self._gen_Dset_Dloader(df=self.df[key], transform=self.transform[key])
+                                              
+        print('\n------ Prepare Data ------\n')
+        for key in ['train', 'valid', 'test']:
+            print(f'Number of {key} galaxies: {len(self.dataset[key])} ({len(self.dataloader[key])} batches)')
+    
+    def _build_model(self, pretrained):
+        self.model = torchvision.models.resnet50(pretrained=pretrained)
+        self.model.fc = nn.Linear(self.model.fc.in_features, self.num_classes)
+        self.model = self.model.to(self.device)
+
+        print('\n------ Build Model ------\n')
+        print('Number of trainable parameters')
+        print('layer1 :', sum(param.numel() for param in self.model.layer1.parameters() if param.requires_grad))
+        print('layer2 :', sum(param.numel() for param in self.model.layer2.parameters() if param.requires_grad))
+        print('layer3 :', sum(param.numel() for param in self.model.layer4.parameters() if param.requires_grad))
+        print('layer4 :', sum(param.numel() for param in self.model.layer3.parameters() if param.requires_grad))
+        print('fc     :', sum(param.numel() for param in self.model.fc.parameters() if param.requires_grad))
+        print('TOTAL  :', sum(param.numel() for param in self.model.parameters() if param.requires_grad))
+    
+    def _define_loss(self):
+        self.criterion = nn.CrossEntropyLoss().to(self.device)
+    
+    def _init_optimizer(self):
+        self.optimizer = optim.Adam(self.model.parameters(), lr=self.lr)
+        self.scheduler = optim.lr_scheduler.StepLR(self.optimizer, step_size=self.step_size, gamma=self.gamma)
+
+    def _train_one_epoch(self):
+        since = time.time()
+
+        print(f'Epoch {self.current_epoch+1}/{self.num_epochs}')
+        for phase in ['train', 'valid']:
+            if phase == 'train':
+                self.model.train()  # Set model to training mode
+            else:
+                self.model.eval()   # Set model to evaluate mode
+
+            running_loss = 0.0
+            running_corrects = 0
+            for inputs, labels in self.dataloader[phase]:
+                inputs = inputs.to(self.device)
+                labels = labels.to(self.device)
+
+                self.optimizer.zero_grad()
+            
+                # track history if only in train
+                with torch.set_grad_enabled(phase == 'train'):
+                    outputs = self.model(inputs)
+                    _, preds = torch.max(outputs, 1)
+                    #_, preds = torch.max(outputs.detach(), 1)
+                    loss = self.criterion(outputs, labels)
+
+                    # backward + optimize only if in training phase
+                    if phase == 'train':
+                        loss.backward()
+                        self.optimizer.step()
+                # keep statstics
+                self.trainInfo[f'{phase}_loss'].append( loss.item() )
+                self.trainInfo[f'{phase}_acc'].append( torch.sum(preds==labels.data).double() / inputs.size(0) )
+
+                running_loss += loss.item() * inputs.size(0)
+                running_corrects += torch.sum(preds == labels.data)
+
+            # ------ End training the epoch in train/valid phase ------
+            if phase == 'train':
+                self.scheduler.step()
+
+            epoch_loss = running_loss / len(self.dataset[phase])
+            epoch_acc = running_corrects.double() / len(self.dataset[phase])
+
+            self.trainInfo[f'epoch_{phase}_loss'].append(epoch_loss)
+            self.trainInfo[f'epoch_{phase}_acc'].append(epoch_acc)
+
+            print(f'\t{phase} Loss: {epoch_loss:.4f} Acc: {epoch_acc:.4f} ', end='')
+
+            # deep copy the model
+            if phase == 'valid' and epoch_acc > self.best_acc:
+                self.best_acc = epoch_acc
+                self.best_epoch = self.current_epoch
+                self.best_model_wts = copy.deepcopy(self.model.state_dict())
+
+        # ------ End training the ephch in both train & valid phases ------ 
+        self.trainInfo['lr'].append(self.scheduler.get_last_lr()[0]) # save lr / epoch
+        time_elapsed = time.time() - since
+        print(f'\tTime: {time_elapsed//60:.0f}m {time_elapsed%60:.0f}s')
+
+    def train(self):
+        
+        self.current_epoch = 0
+        self.best_model_wts = copy.deepcopy(self.model.state_dict())
+        self.best_acc = 0.0
+        self._init_storage()
+
+        print('\n------ Training ------\n')
+        for epoch in range(self.num_epochs):
+            self.current_epoch = epoch
+            self._train_one_epoch()
+            self._save_checkpoint()
+
+            if self.current_epoch - self.best_epoch >= self.early_stop_threshold:
+                print(f'Early stopping... (Model did not imporve after {self.early_stop_threshold} epochs)')
+                break
+            
+        print(f'Best accuracy of {self.best_acc} reached at epoch {self.best_epoch}.')
+    
+    def test(self):
+
+        self._load_checkpoint()
+        self.model.load_state_dict(self.statInfo['best_model_wts'])
+        self.model.eval()
+
+        running_loss = 0.0
+        running_corrects = 0
+        for inputs, labels in self.dataloader['test']:
+            inputs = inputs.to(self.device)
+            labels = labels.long().to(self.device)
+
+            with torch.no_grad():
+                outputs = self.model(inputs)
+                _, preds = torch.max(outputs, 1)
+                loss = self.criterion(outputs, labels)
+
+                running_loss += loss.item() * inputs.size(0)
+                running_corrects += torch.sum(preds == labels.data)
+        
+        test_loss = running_loss / len(self.dataset['test'])
+        test_acc = running_corrects / len(self.dataset['test'])
+
+        print(f'test Loss: {test_loss:.4f}\t test Accuracy: {test_acc:.4f}')
+        return test_loss, test_acc
+
+
+if __name__ == '__main__':
+    from utils import get_config_from_yaml
+    config = get_config_from_yaml('../configs/resnet50_test.yaml')
+    classifier = ResNet50_Classifier(config=config)

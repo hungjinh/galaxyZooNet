@@ -1,0 +1,89 @@
+Namespace(config='configs/resnet50_run1.yaml')
+
+------ Parameters ------
+exp_name : run1
+cuda : True
+ngpu : 1
+gpu_device : 0
+workers : 1
+dir_image : /home/hhg/Research/galaxyClassify/catalog/galaxyZoo_kaggle/gz2_images/images
+file_csv : /home/hhg/Research/galaxyClassify/catalog/galaxyZoo/zoo2/classAll_4label_temp.csv
+label_tag : label1
+num_classes : 8
+f_train : 0.64
+f_valid : 0.16
+f_test : 0.2
+seed : 3
+norm_mean : [0.094, 0.0815, 0.063]
+norm_std : [0.1303, 0.11, 0.0913]
+input_size : 224
+pretrained : True
+num_epochs : 50
+batch_size : 64
+lr : 5e-05
+step_size : 3
+gamma : 0.1
+early_stop_threshold : 10
+dir_output : /home/hhg/Research/galaxyClassify/repo/galaxyZooNet/experiment/resnet50
+
+------ Prepare Data ------
+
+Number of train galaxies: 99808 (1560 batches)
+Number of valid galaxies: 24952 (390 batches)
+Number of test galaxies: 31191 (488 batches)
+
+------ Build Model ------
+
+Number of trainable parameters
+layer1 : 215808
+layer2 : 1219584
+layer3 : 14964736
+layer4 : 7098368
+fc     : 16392
+TOTAL  : 23524424
+
+------ Create experiment directory ------
+
+Training information will be stored at :
+ 	 /home/hhg/Research/galaxyClassify/repo/galaxyZooNet/experiment/resnet50/run1
+
+------ Training ------
+
+Epoch 1/50
+	train Loss: 0.6976 Acc: 0.7443 	valid Loss: 0.5893 Acc: 0.7825 	Time: 10m 29s
+Epoch 2/50
+	train Loss: 0.5595 Acc: 0.7942 	valid Loss: 0.5431 Acc: 0.8045 	Time: 10m 28s
+Epoch 3/50
+	train Loss: 0.5274 Acc: 0.8071 	valid Loss: 0.5204 Acc: 0.8081 	Time: 10m 28s
+Epoch 4/50
+	train Loss: 0.4582 Acc: 0.8309 	valid Loss: 0.4536 Acc: 0.8343 	Time: 10m 31s
+Epoch 5/50
+	train Loss: 0.4459 Acc: 0.8342 	valid Loss: 0.4485 Acc: 0.8338 	Time: 10m 31s
+Epoch 6/50
+	train Loss: 0.4373 Acc: 0.8375 	valid Loss: 0.4454 Acc: 0.8349 	Time: 10m 28s
+Epoch 7/50
+	train Loss: 0.4288 Acc: 0.8410 	valid Loss: 0.4387 Acc: 0.8372 	Time: 10m 30s
+Epoch 8/50
+	train Loss: 0.4272 Acc: 0.8421 	valid Loss: 0.4358 Acc: 0.8395 	Time: 10m 29s
+Epoch 9/50
+	train Loss: 0.4255 Acc: 0.8421 	valid Loss: 0.4391 Acc: 0.8368 	Time: 10m 29s
+Epoch 10/50
+	train Loss: 0.4246 Acc: 0.8426 	valid Loss: 0.4385 Acc: 0.8374 	Time: 10m 29s
+Epoch 11/50
+	train Loss: 0.4250 Acc: 0.8429 	valid Loss: 0.4368 Acc: 0.8390 	Time: 10m 29s
+Epoch 12/50
+	train Loss: 0.4231 Acc: 0.8429 	valid Loss: 0.4377 Acc: 0.8382 	Time: 10m 32s
+Epoch 13/50
+	train Loss: 0.4237 Acc: 0.8423 	valid Loss: 0.4386 Acc: 0.8368 	Time: 10m 29s
+Epoch 14/50
+	train Loss: 0.4240 Acc: 0.8423 	valid Loss: 0.4417 Acc: 0.8378 	Time: 10m 31s
+Epoch 15/50
+	train Loss: 0.4234 Acc: 0.8427 	valid Loss: 0.4389 Acc: 0.8395 	Time: 10m 32s
+Epoch 16/50
+	train Loss: 0.4237 Acc: 0.8414 	valid Loss: 0.4397 Acc: 0.8377 	Time: 10m 32s
+Epoch 17/50
+	train Loss: 0.4234 Acc: 0.8430 	valid Loss: 0.4384 Acc: 0.8387 	Time: 10m 31s
+Epoch 18/50
+	train Loss: 0.4236 Acc: 0.8431 	valid Loss: 0.4373 Acc: 0.8380 	Time: 10m 29s
+Early stopping... (Model did not imporve after 10 epochs)
+Best accuracy of 0.8394517473549215 reached at epoch 7.

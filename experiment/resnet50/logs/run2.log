@@ -1,0 +1,111 @@
+Namespace(config='experiment/resnet50/configs/run2.yaml')
+
+------ Prepare Data ------
+
+Number of train galaxies: 99808 (1560 batches)
+Number of valid galaxies: 24952 (390 batches)
+Number of test galaxies: 31191 (488 batches)
+
+------ Build Model ------
+
+Number of trainable parameters
+layer1 : 215808
+layer2 : 1219584
+layer3 : 14964736
+layer4 : 7098368
+fc     : 16392
+TOTAL  : 23524424
+
+------ Create experiment directory ------
+
+Training information will be stored at :
+ 	 /home/hhg/Research/galaxyClassify/repo/galaxyZooNet/experiment/resnet50/run2
+
+------ Training ------
+
+Epoch 1/90
+	train Loss: 1.3565 Acc: 0.5129 	valid Loss: 1.5438 Acc: 0.4136 	Time: 9m 44s
+Epoch 2/90
+	train Loss: 0.9819 Acc: 0.6394 	valid Loss: 3.0091 Acc: 0.3501 	Time: 9m 44s
+Epoch 3/90
+	train Loss: 0.8579 Acc: 0.6942 	valid Loss: 4.2316 Acc: 0.3286 	Time: 9m 43s
+Epoch 4/90
+	train Loss: 0.7963 Acc: 0.7157 	valid Loss: 1.8347 Acc: 0.5674 	Time: 9m 43s
+Epoch 5/90
+	train Loss: 0.7654 Acc: 0.7269 	valid Loss: 0.7127 Acc: 0.7395 	Time: 9m 43s
+Epoch 6/90
+	train Loss: 0.7357 Acc: 0.7380 	valid Loss: 0.7690 Acc: 0.7241 	Time: 9m 42s
+Epoch 7/90
+	train Loss: 0.7151 Acc: 0.7458 	valid Loss: 2.4535 Acc: 0.4340 	Time: 9m 42s
+Epoch 8/90
+	train Loss: 0.7006 Acc: 0.7519 	valid Loss: 0.8210 Acc: 0.7204 	Time: 9m 41s
+Epoch 9/90
+	train Loss: 0.6076 Acc: 0.7823 	valid Loss: 0.5839 Acc: 0.7897 	Time: 9m 42s
+Epoch 10/90
+	train Loss: 0.5911 Acc: 0.7875 	valid Loss: 0.5757 Acc: 0.7938 	Time: 9m 42s
+Epoch 11/90
+	train Loss: 0.5812 Acc: 0.7915 	valid Loss: 0.5749 Acc: 0.7941 	Time: 9m 42s
+Epoch 12/90
+	train Loss: 0.5745 Acc: 0.7931 	valid Loss: 0.5746 Acc: 0.7934 	Time: 9m 42s
+Epoch 13/90
+	train Loss: 0.5701 Acc: 0.7937 	valid Loss: 0.5668 Acc: 0.7972 	Time: 9m 42s
+Epoch 14/90
+	train Loss: 0.5643 Acc: 0.7954 	valid Loss: 0.5635 Acc: 0.7980 	Time: 9m 42s
+Epoch 15/90
+	train Loss: 0.5609 Acc: 0.7988 	valid Loss: 0.5610 Acc: 0.7961 	Time: 9m 41s
+Epoch 16/90
+	train Loss: 0.5603 Acc: 0.7966 	valid Loss: 0.5508 Acc: 0.7994 	Time: 9m 41s
+Epoch 17/90
+	train Loss: 0.5458 Acc: 0.8017 	valid Loss: 0.5431 Acc: 0.8036 	Time: 9m 42s
+Epoch 18/90
+	train Loss: 0.5425 Acc: 0.8040 	valid Loss: 0.5419 Acc: 0.8044 	Time: 9m 42s
+Epoch 19/90
+	train Loss: 0.5414 Acc: 0.8032 	valid Loss: 0.5431 Acc: 0.8028 	Time: 9m 42s
+Epoch 20/90
+	train Loss: 0.5408 Acc: 0.8031 	valid Loss: 0.5479 Acc: 0.8002 	Time: 9m 42s
+Epoch 21/90
+	train Loss: 0.5419 Acc: 0.8036 	valid Loss: 0.5457 Acc: 0.8029 	Time: 9m 42s
+Epoch 22/90
+	train Loss: 0.5388 Acc: 0.8038 	valid Loss: 0.5402 Acc: 0.8057 	Time: 9m 42s
+Epoch 23/90
+	train Loss: 0.5406 Acc: 0.8041 	valid Loss: 0.5405 Acc: 0.8035 	Time: 9m 42s
+Epoch 24/90
+	train Loss: 0.5381 Acc: 0.8044 	valid Loss: 0.5411 Acc: 0.8045 	Time: 9m 41s
+Epoch 25/90
+	train Loss: 0.5381 Acc: 0.8047 	valid Loss: 0.5407 Acc: 0.8057 	Time: 9m 41s
+Epoch 26/90
+	train Loss: 0.5349 Acc: 0.8050 	valid Loss: 0.5381 Acc: 0.8051 	Time: 9m 42s
+Epoch 27/90
+	train Loss: 0.5368 Acc: 0.8044 	valid Loss: 0.5403 Acc: 0.8036 	Time: 9m 42s
+Epoch 28/90
+	train Loss: 0.5365 Acc: 0.8048 	valid Loss: 0.5455 Acc: 0.8038 	Time: 9m 42s
+Epoch 29/90
+	train Loss: 0.5349 Acc: 0.8066 	valid Loss: 0.5386 Acc: 0.8057 	Time: 9m 42s
+Epoch 30/90
+	train Loss: 0.5351 Acc: 0.8058 	valid Loss: 0.5401 Acc: 0.8051 	Time: 9m 43s
+Epoch 31/90
+	train Loss: 0.5358 Acc: 0.8055 	valid Loss: 0.5395 Acc: 0.8028 	Time: 9m 42s
+Epoch 32/90
+	train Loss: 0.5369 Acc: 0.8062 	valid Loss: 0.5374 Acc: 0.8074 	Time: 9m 48s
+Epoch 33/90
+	train Loss: 0.5359 Acc: 0.8060 	valid Loss: 0.5386 Acc: 0.8065 	Time: 9m 48s
+Epoch 34/90
+	train Loss: 0.5363 Acc: 0.8045 	valid Loss: 0.5418 Acc: 0.8043 	Time: 9m 43s
+Epoch 35/90
+	train Loss: 0.5356 Acc: 0.8060 	valid Loss: 0.5425 Acc: 0.8048 	Time: 9m 43s
+Epoch 36/90
+	train Loss: 0.5352 Acc: 0.8051 	valid Loss: 0.5404 Acc: 0.8055 	Time: 9m 43s
+Epoch 37/90
+	train Loss: 0.5341 Acc: 0.8066 	valid Loss: 0.5410 Acc: 0.8030 	Time: 9m 43s
+Epoch 38/90
+	train Loss: 0.5361 Acc: 0.8057 	valid Loss: 0.5432 Acc: 0.8023 	Time: 9m 43s
+Epoch 39/90
+	train Loss: 0.5341 Acc: 0.8068 	valid Loss: 0.5371 Acc: 0.8064 	Time: 9m 49s
+Epoch 40/90
+	train Loss: 0.5348 Acc: 0.8058 	valid Loss: 0.5405 Acc: 0.8060 	Time: 9m 42s
+Epoch 41/90
+	train Loss: 0.5349 Acc: 0.8048 	valid Loss: 0.5396 Acc: 0.8061 	Time: 9m 49s
+Epoch 42/90
+	train Loss: 0.5352 Acc: 0.8053 	valid Loss: 0.5393 Acc: 0.8045 	Time: 9m 44s
+Early stopping... (Model did not imporve after 10 epochs)
+Best accuracy of 0.8073501122154537 reached at epoch 31.

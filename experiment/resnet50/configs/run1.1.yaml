@@ -1,0 +1,31 @@
+exp_name   : run1.1
+
+cuda       : True
+ngpu       : 1
+gpu_device : 0
+workers    : 2
+
+dir_image   : /home/hhg/Research/galaxyClassify/catalog/galaxyZoo_kaggle/gz2_images/images
+file_csv    : /home/hhg/Research/galaxyClassify/catalog/galaxyZoo/zoo2/classAll_4label_temp.csv
+label_tag   : label1
+num_classes : 8
+f_train     : 0.64
+f_valid     : 0.16
+f_test      : 0.20
+seed        : 3         # radnom seed for train-valid-test splits
+norm_mean   : [0.485, 0.456, 0.406]
+norm_std    : [0.229, 0.224, 0.225]
+#norm_mean   : [0.0940, 0.0815, 0.0630]     # full galaxy image dataset mean
+#norm_std    : [0.1303, 0.1100, 0.0913]     # ......................... std
+
+input_size  : 224
+pretrained  : True
+
+num_epochs : 50
+batch_size : 64
+lr         : 5.e-5
+step_size  : 3        # period of learning rate decay
+gamma      : 0.1      # multiplicative factor of learning rate decay
+early_stop_threshold : 10 
+
+dir_output : /home/hhg/Research/galaxyClassify/repo/galaxyZooNet/experiment/resnet50
