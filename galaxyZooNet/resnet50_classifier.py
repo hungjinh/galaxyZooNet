@@ -193,7 +193,7 @@ class ResNet50_Classifier():
                 print(f'Early stopping... (Model did not imporve after {self.early_stop_threshold} epochs)')
                 break
             
-        print(f'Best accuracy of {self.best_acc} reached at epoch {self.best_epoch}.')
+        print(f'Best accuracy of {self.best_acc} reached at epoch {self.best_epoch+1}.')
     
     def _test_loop(self, dataset, dataloader):
 

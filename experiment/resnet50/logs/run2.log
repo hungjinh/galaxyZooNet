@@ -135,7 +135,7 @@ Epoch 41/90
 Epoch 42/90
 	train Loss: 0.5352 Acc: 0.8053 	valid Loss: 0.5393 Acc: 0.8045 	Time: 9m 44s
 Early stopping... (Model did not imporve after 10 epochs)
-Best accuracy of 0.8073501122154537 reached at epoch 31.
+Best accuracy of 0.8073501122154537 reached at epoch 32.
 
 ------ Run test on the full test dataset (8 galaxy classes) ------
 
