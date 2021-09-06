@@ -22,7 +22,7 @@ class ResNet50_Classifier():
 
     def _setup(self, config):
         
-        print('------ Parameters ------')
+        print('\n------ Parameters ------\n')
         for key in config:
             setattr(self, key, config[key])
             print(f'{key} :', config[key])
@@ -195,15 +195,13 @@ class ResNet50_Classifier():
             
         print(f'Best accuracy of {self.best_acc} reached at epoch {self.best_epoch}.')
     
-    def test(self):
+    def _test_loop(self, dataset, dataloader):
 
-        self._load_checkpoint()
-        self.model.load_state_dict(self.statInfo['best_model_wts'])
-        self.model.eval()
+        print(f'  Number of galaxies: {len(dataset)} ({len(dataloader)} batches)')
 
         running_loss = 0.0
         running_corrects = 0
-        for inputs, labels in self.dataloader['test']:
+        for inputs, labels in dataloader:
             inputs = inputs.to(self.device)
             labels = labels.long().to(self.device)
 
@@ -215,10 +213,42 @@ class ResNet50_Classifier():
                 running_loss += loss.item() * inputs.size(0)
                 running_corrects += torch.sum(preds == labels.data)
         
-        test_loss = running_loss / len(self.dataset['test'])
-        test_acc = running_corrects / len(self.dataset['test'])
+        test_loss = running_loss / len(dataset)
+        test_acc = running_corrects / len(dataset)
 
-        print(f'test Loss: {test_loss:.4f}\t test Accuracy: {test_acc:.4f}')
+        print(f'\ttest Loss: {test_loss:.4f}\t test Accuracy: {test_acc:.4f}')
+
+        return test_loss, test_acc
+           
+    def test(self, mode='full'):
+        '''Run test on the best-trained model.
+            Args:
+                mode = 'full' or 'separate'
+                    'full' -> run test on the full test dataset
+                    'separate' -> run test on each galaxy morphology class separately
+        '''
+
+        self._load_checkpoint()
+        self.model.load_state_dict(self.statInfo['best_model_wts'])
+        self.model.eval()
+        
+        if mode == 'full':
+            print(f'\n------ Run test on the full test dataset ({self.num_classes} galaxy classes) ------\n')
+            test_loss, test_acc = self._test_loop(dataset=self.dataset['test'], dataloader=self.dataloader['test'])
+
+        elif mode == 'separate':
+            print(f'\n------ Run test on each galaxy morphology class separately ------\n')
+
+            test_loss = [0.]*self.num_classes
+            test_acc = [0.]*self.num_classes
+            for classID in range(self.num_classes):
+                print(f'Class {classID} galaxies')
+                df_class = self.df['test'][self.df['test'][self.label_tag] == classID]
+                dataset_c, dataloader_c = self._gen_Dset_Dloader(df_class, transform=self.transform['test'])
+                test_loss[classID], test_acc[classID] = self._test_loop(dataset=dataset_c, dataloader=dataloader_c)
+        else:
+            raise ValueError('Invalid mode. Set mode=\'full\' or \'separate\'.')
+
         return test_loss, test_acc
 
 

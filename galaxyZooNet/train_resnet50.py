@@ -21,6 +21,8 @@ def main(args=None):
     config = get_config_from_yaml(opt.config)
     classifier = ResNet50_Classifier(config=config)
     classifier.train()
+    test_loss, test_acc = classifier.test(mode='full')
+    test_loss_sep, test_acc_sep = classifier.test(mode='separate')
 
 if __name__ == '__main__':
     main()
