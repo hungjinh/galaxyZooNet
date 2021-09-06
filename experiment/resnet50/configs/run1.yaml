@@ -3,7 +3,7 @@ exp_name   : run1
 cuda       : True
 ngpu       : 1
 gpu_device : 0
-workers    : 1
+workers    : 2 
 
 dir_image   : /home/hhg/Research/galaxyClassify/catalog/galaxyZoo_kaggle/gz2_images/images
 file_csv    : /home/hhg/Research/galaxyClassify/catalog/galaxyZoo/zoo2/classAll_4label_temp.csv
@@ -24,7 +24,7 @@ pretrained  : True
 num_epochs : 50
 batch_size : 64
 lr         : 5.e-5
-step_size  : 3        # period of learning rate decay
+step_size  : 5        # period of learning rate decay
 gamma      : 0.1      # multiplicative factor of learning rate decay
 early_stop_threshold : 10 
 

@@ -1,6 +1,7 @@
 Namespace(config='configs/resnet50_run0.yaml')
 
 ------ Parameters ------
+
 exp_name : run0
 cuda : True
 ngpu : 1
@@ -93,3 +94,35 @@ Epoch 21/50
 	train Loss: 0.3932 Acc: 0.8532 	valid Loss: 0.4188 Acc: 0.8450 	Time: 10m 3s
 Early stopping... (Model did not imporve after 10 epochs)
 Best accuracy of 0.846825905739019 reached at epoch 10.
+
+------ Run test on the full test dataset (8 galaxy classes) ------
+
+  Number of galaxies: 31191 (488 batches)
+  	test Loss: 0.4110	 test Accuracy: 0.8494
+
+------ Run test on each galaxy morphology class separately ------
+
+Class 0 galaxies
+  Number of galaxies: 6755 (106 batches)
+	test Loss: 0.2330	 test Accuracy: 0.9224
+Class 1 galaxies
+  Number of galaxies: 7845 (123 batches)
+	test Loss: 0.3406	 test Accuracy: 0.8748
+Class 2 galaxies
+  Number of galaxies: 1471 (23 batches)
+	test Loss: 0.6286	 test Accuracy: 0.7437
+Class 3 galaxies
+  Number of galaxies: 3295 (52 batches)
+	test Loss: 0.2485	 test Accuracy: 0.9111
+Class 4 galaxies
+  Number of galaxies: 4148 (65 batches)
+	test Loss: 0.4299	 test Accuracy: 0.8527
+Class 5 galaxies
+  Number of galaxies: 6094 (96 batches)
+	test Loss: 0.5306	 test Accuracy: 0.7950
+Class 6 galaxies
+  Number of galaxies: 1176 (19 batches)
+	test Loss: 1.2007	 test Accuracy: 0.5468
+Class 7 galaxies
+  Number of galaxies: 407 (7 batches)
+	test Loss: 0.9844	 test Accuracy: 0.6855

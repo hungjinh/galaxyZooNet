@@ -1,5 +1,32 @@
 Namespace(config='experiment/resnet50/configs/run2.yaml')
 
+------ Parameters ------
+
+exp_name : run2
+cuda : True
+ngpu : 1
+gpu_device : 0
+workers : 1
+dir_image : /home/hhg/Research/galaxyClassify/catalog/galaxyZoo_kaggle/gz2_images/images
+file_csv : /home/hhg/Research/galaxyClassify/catalog/galaxyZoo/zoo2/classAll_4label_temp.csv
+label_tag : label1
+num_classes : 8
+f_train : 0.64
+f_valid : 0.16
+f_test : 0.2
+seed : 3
+norm_mean : [0.094, 0.0815, 0.063]
+norm_std : [0.1303, 0.11, 0.0913]
+input_size : 224
+pretrained : True
+num_epochs : 90
+batch_size : 64
+lr : 0.1
+step_size : 8
+gamma : 0.1
+early_stop_threshold : 10
+dir_output : /home/hhg/Research/galaxyClassify/repo/galaxyZooNet/experiment/resnet50
+
 ------ Prepare Data ------
 
 Number of train galaxies: 99808 (1560 batches)
@@ -109,3 +136,35 @@ Epoch 42/90
 	train Loss: 0.5352 Acc: 0.8053 	valid Loss: 0.5393 Acc: 0.8045 	Time: 9m 44s
 Early stopping... (Model did not imporve after 10 epochs)
 Best accuracy of 0.8073501122154537 reached at epoch 31.
+
+------ Run test on the full test dataset (8 galaxy classes) ------
+
+  Number of galaxies: 31191 (488 batches)
+  	test Loss: 0.5203	 test Accuracy: 0.8140
+
+------ Run test on each galaxy morphology class separately ------
+
+Class 0 galaxies
+  Number of galaxies: 6755 (106 batches)
+	test Loss: 0.2650	 test Accuracy: 0.9088
+Class 1 galaxies
+  Number of galaxies: 7845 (123 batches)
+	test Loss: 0.3898	 test Accuracy: 0.8597
+Class 2 galaxies
+  Number of galaxies: 1471 (23 batches)
+	test Loss: 0.7967	 test Accuracy: 0.6798
+Class 3 galaxies
+  Number of galaxies: 3295 (52 batches)
+	test Loss: 0.3108	 test Accuracy: 0.8995
+Class 4 galaxies
+  Number of galaxies: 4148 (65 batches)
+	test Loss: 0.5756	 test Accuracy: 0.8001
+Class 5 galaxies
+  Number of galaxies: 6094 (96 batches)
+	test Loss: 0.6696	 test Accuracy: 0.7475
+Class 6 galaxies
+  Number of galaxies: 1176 (19 batches)
+	test Loss: 1.7501	 test Accuracy: 0.4039
+Class 7 galaxies
+  Number of galaxies: 407 (7 batches)
+	test Loss: 1.6130	 test Accuracy: 0.4767
