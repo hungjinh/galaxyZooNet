@@ -6,8 +6,8 @@ gpu_device : 0
 workers    : 2 
 
 dir_image   : /home/hhg/Research/galaxyClassify/catalog/galaxyZoo_kaggle/gz2_images/images
-file_csv    : /home/hhg/Research/galaxyClassify/catalog/galaxyZoo/zoo2/classAll_4label_temp.csv
-label_tag   : label1
+file_csv    : /home/hhg/Research/galaxyClassify/catalog/galaxyZoo/zoo2/gz2_all_v2.csv
+label_tag   : label_8
 num_classes : 8
 f_train     : 0.64
 f_valid     : 0.16
