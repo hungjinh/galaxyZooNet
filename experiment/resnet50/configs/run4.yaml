@@ -1,0 +1,29 @@
+exp_name   : run4
+
+cuda       : True
+ngpu       : 1
+gpu_device : 0
+workers    : 2 
+
+dir_image   : /home/u16/hungjinh/Research/galaxyClassifiy/catalog/galaxyZoo/zoo2/images
+file_csv    : /home/u16/hungjinh/Research/galaxyClassifiy/catalog/galaxyZoo/zoo2/classAll_4label_temp.csv
+label_tag   : label1
+num_classes : 8
+f_train     : 0.64
+f_valid     : 0.16
+f_test      : 0.20
+seed        : 3         # radnom seed for train-valid-test splits
+norm_mean   : [0.5, 0.5, 0.5]
+norm_std    : [0.5, 0.5, 0.5]
+
+input_size  : 224
+pretrained  : True
+
+num_epochs : 99
+batch_size : 64
+lr         : 5.e-5
+step_size  : 5        # period of learning rate decay
+gamma      : 0.1      # multiplicative factor of learning rate decay
+early_stop_threshold : 15 
+
+dir_output : /home/u16/hungjinh/Research/galaxyClassifiy/repo/galaxyZooNet/experiment/resnet50
