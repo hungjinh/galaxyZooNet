@@ -17,7 +17,7 @@ class ResNet50_Classifier():
         self._setup(config)
         self._prepare_data()
         self._build_model(self.pretrained)
-        self._define_loss()
+        self._define_loss(weight=self.class_weights)
         self._init_optimizer()
 
     def _setup(self, config):
@@ -110,8 +110,14 @@ class ResNet50_Classifier():
         print('fc     :', sum(param.numel() for param in self.model.fc.parameters() if param.requires_grad))
         print('TOTAL  :', sum(param.numel() for param in self.model.parameters() if param.requires_grad))
     
-    def _define_loss(self):
-        self.criterion = nn.CrossEntropyLoss().to(self.device)
+    def _define_loss(self, weight=None):
+        '''
+            Args:
+                weight (list) : weigh factors associated with morphology classes
+        '''
+        if weight:
+            weight = torch.FloatTensor(weight).to(self.device)
+        self.criterion = nn.CrossEntropyLoss(weight=weight).to(self.device)
     
     def _init_optimizer(self):
         self.optimizer = optim.Adam(self.model.parameters(), lr=self.lr)
