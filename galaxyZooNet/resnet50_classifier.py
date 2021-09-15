@@ -2,7 +2,7 @@ import os
 import time
 import pickle
 
-from data_kits import data_split, GalaxyZooDataset, transforms_galaxy
+from galaxyZooNet.data_kits import data_split, GalaxyZooDataset, transforms_galaxy
 from torch.utils.data import DataLoader
 
 import copy

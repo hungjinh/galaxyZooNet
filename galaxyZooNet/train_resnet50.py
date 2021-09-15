@@ -1,6 +1,10 @@
-import argparse
-from resnet50_classifier import ResNet50_Classifier
-from utils import get_config_from_yaml
+import os
+import sys
+dir_path = os.path.dirname(os.path.realpath(__file__))
+sys.path.append(dir_path+'/..')
+
+from galaxyZooNet.resnet50_classifier import ResNet50_Classifier
+from galaxyZooNet.utils import get_config_from_yaml
 
 def main(args=None):
     '''
