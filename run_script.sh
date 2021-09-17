@@ -1,8 +1,8 @@
 cd /home/hhg/Research/galaxyClassify/repo/galaxyZooNet
 
-python3 galaxyZooNet/train_resnet50.py --config configs/resnet50_test.yaml
+#python3 galaxyZooNet/train_resnet50.py --config configs/resnet50_test.yaml
 
-#python3 galaxyZooNet/train_resnet50.py --config experiment/resnet50/configs/run6.yaml > experiment/resnet50/logs/run6.log
+python3 galaxyZooNet/train_resnet50.py --config experiment/resnet50/configs/run7.yaml > experiment/resnet50/logs/run7.log
 
 # ====== job run history ======
 
