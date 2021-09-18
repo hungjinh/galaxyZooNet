@@ -1,0 +1,168 @@
+Namespace(config='experiment/resnet50/configs/run1.yaml')
+
+------ Parameters ------
+
+exp_name : run1
+cuda : True
+ngpu : 1
+gpu_device : 0
+workers : 2
+dir_image : /home/hhg/Research/galaxyClassify/catalog/galaxyZoo_kaggle/gz2_images/images
+file_csv : /home/hhg/Research/galaxyClassify/catalog/galaxyZoo/zoo2/classAll_4label_temp.csv
+label_tag : label1
+num_classes : 8
+f_train : 0.64
+f_valid : 0.16
+f_test : 0.2
+seed : 3
+norm_mean : [0.094, 0.0815, 0.063]
+norm_std : [0.1303, 0.11, 0.0913]
+input_size : 224
+pretrained : True
+num_epochs : 50
+batch_size : 64
+lr : 5e-05
+step_size : 5
+gamma : 0.1
+early_stop_threshold : 10
+dir_output : /home/hhg/Research/galaxyClassify/repo/galaxyZooNet/experiment/resnet50
+
+------ Prepare Data ------
+
+Number of train galaxies: 99808 (1560 batches)
+Number of valid galaxies: 24952 (390 batches)
+Number of test galaxies: 31191 (488 batches)
+
+------ Build Model ------
+
+Number of trainable parameters
+layer1 : 215808
+layer2 : 1219584
+layer3 : 14964736
+layer4 : 7098368
+fc     : 16392
+TOTAL  : 23524424
+
+------ Create experiment directory ------
+
+Training information will be stored at :
+ 	 /home/hhg/Research/galaxyClassify/repo/galaxyZooNet/experiment/resnet50/run1
+
+------ Training ------
+
+Epoch 1/50
+	train Loss: 0.6990 Acc: 0.7444 	valid Loss: 0.5493 Acc: 0.7958 	Time: 10m 2s
+Epoch 2/50
+	train Loss: 0.5580 Acc: 0.7959 	valid Loss: 0.5212 Acc: 0.8071 	Time: 10m 4s
+Epoch 3/50
+	train Loss: 0.5275 Acc: 0.8067 	valid Loss: 0.5036 Acc: 0.8152 	Time: 10m 2s
+Epoch 4/50
+	train Loss: 0.5075 Acc: 0.8128 	valid Loss: 0.5075 Acc: 0.8123 	Time: 10m 2s
+Epoch 5/50
+	train Loss: 0.4905 Acc: 0.8191 	valid Loss: 0.4825 Acc: 0.8226 	Time: 10m 3s
+Epoch 6/50
+	train Loss: 0.4315 Acc: 0.8390 	valid Loss: 0.4365 Acc: 0.8397 	Time: 10m 2s
+Epoch 7/50
+	train Loss: 0.4170 Acc: 0.8452 	valid Loss: 0.4340 Acc: 0.8409 	Time: 10m 2s
+Epoch 8/50
+	train Loss: 0.4126 Acc: 0.8466 	valid Loss: 0.4341 Acc: 0.8390 	Time: 10m 2s
+Epoch 9/50
+	train Loss: 0.4078 Acc: 0.8479 	valid Loss: 0.4285 Acc: 0.8402 	Time: 10m 2s
+Epoch 10/50
+	train Loss: 0.4032 Acc: 0.8495 	valid Loss: 0.4254 Acc: 0.8438 	Time: 10m 2s
+Epoch 11/50
+	train Loss: 0.3953 Acc: 0.8520 	valid Loss: 0.4220 Acc: 0.8451 	Time: 10m 2s
+Epoch 12/50
+	train Loss: 0.3940 Acc: 0.8529 	valid Loss: 0.4245 Acc: 0.8418 	Time: 10m 3s
+Epoch 13/50
+	train Loss: 0.3937 Acc: 0.8536 	valid Loss: 0.4206 Acc: 0.8453 	Time: 10m 3s
+Epoch 14/50
+	train Loss: 0.3924 Acc: 0.8536 	valid Loss: 0.4211 Acc: 0.8451 	Time: 10m 3s
+Epoch 15/50
+	train Loss: 0.3929 Acc: 0.8530 	valid Loss: 0.4215 Acc: 0.8449 	Time: 10m 3s
+Epoch 16/50
+	train Loss: 0.3919 Acc: 0.8544 	valid Loss: 0.4200 Acc: 0.8448 	Time: 10m 3s
+Epoch 17/50
+	train Loss: 0.3898 Acc: 0.8545 	valid Loss: 0.4242 Acc: 0.8431 	Time: 10m 3s
+Epoch 18/50
+	train Loss: 0.3919 Acc: 0.8541 	valid Loss: 0.4187 Acc: 0.8436 	Time: 10m 3s
+Epoch 19/50
+	train Loss: 0.3913 Acc: 0.8542 	valid Loss: 0.4233 Acc: 0.8424 	Time: 10m 3s
+Epoch 20/50
+	train Loss: 0.3904 Acc: 0.8538 	valid Loss: 0.4214 Acc: 0.8442 	Time: 10m 3s
+Epoch 21/50
+	train Loss: 0.3901 Acc: 0.8541 	valid Loss: 0.4241 Acc: 0.8436 	Time: 10m 3s
+Epoch 22/50
+	train Loss: 0.3920 Acc: 0.8548 	valid Loss: 0.4214 Acc: 0.8456 	Time: 10m 3s
+Epoch 23/50
+	train Loss: 0.3917 Acc: 0.8537 	valid Loss: 0.4245 Acc: 0.8452 	Time: 10m 3s
+Epoch 24/50
+	train Loss: 0.3908 Acc: 0.8544 	valid Loss: 0.4219 Acc: 0.8452 	Time: 10m 3s
+Epoch 25/50
+	train Loss: 0.3904 Acc: 0.8540 	valid Loss: 0.4206 Acc: 0.8432 	Time: 10m 3s
+Epoch 26/50
+	train Loss: 0.3895 Acc: 0.8550 	valid Loss: 0.4208 Acc: 0.8449 	Time: 10m 3s
+Epoch 27/50
+	train Loss: 0.3911 Acc: 0.8537 	valid Loss: 0.4212 Acc: 0.8419 	Time: 10m 3s
+Epoch 28/50
+	train Loss: 0.3906 Acc: 0.8538 	valid Loss: 0.4213 Acc: 0.8441 	Time: 10m 3s
+Epoch 29/50
+	train Loss: 0.3897 Acc: 0.8538 	valid Loss: 0.4190 Acc: 0.8449 	Time: 10m 3s
+Epoch 30/50
+	train Loss: 0.3914 Acc: 0.8542 	valid Loss: 0.4183 Acc: 0.8452 	Time: 10m 3s
+Epoch 31/50
+	train Loss: 0.3916 Acc: 0.8545 	valid Loss: 0.4203 Acc: 0.8459 	Time: 10m 3s
+Epoch 32/50
+	train Loss: 0.3910 Acc: 0.8541 	valid Loss: 0.4197 Acc: 0.8454 	Time: 10m 3s
+Epoch 33/50
+	train Loss: 0.3902 Acc: 0.8546 	valid Loss: 0.4202 Acc: 0.8441 	Time: 10m 3s
+Epoch 34/50
+	train Loss: 0.3915 Acc: 0.8547 	valid Loss: 0.4229 Acc: 0.8450 	Time: 10m 3s
+Epoch 35/50
+	train Loss: 0.3898 Acc: 0.8554 	valid Loss: 0.4235 Acc: 0.8433 	Time: 10m 3s
+Epoch 36/50
+	train Loss: 0.3902 Acc: 0.8541 	valid Loss: 0.4206 Acc: 0.8446 	Time: 10m 3s
+Epoch 37/50
+	train Loss: 0.3900 Acc: 0.8549 	valid Loss: 0.4212 Acc: 0.8445 	Time: 10m 3s
+Epoch 38/50
+	train Loss: 0.3899 Acc: 0.8541 	valid Loss: 0.4242 Acc: 0.8434 	Time: 10m 3s
+Epoch 39/50
+	train Loss: 0.3915 Acc: 0.8542 	valid Loss: 0.4202 Acc: 0.8452 	Time: 10m 3s
+Epoch 40/50
+	train Loss: 0.3924 Acc: 0.8531 	valid Loss: 0.4219 Acc: 0.8453 	Time: 10m 3s
+Epoch 41/50
+	train Loss: 0.3911 Acc: 0.8544 	valid Loss: 0.4216 Acc: 0.8429 	Time: 10m 3s
+Early stopping... (Model did not imporve after 10 epochs)
+Best accuracy of 0.8459041359410068 reached at epoch 31.
+
+------ Run test on the full test dataset (8 galaxy classes) ------
+
+  Number of galaxies: 31191 (488 batches)
+	test Loss: 0.4143	 test Accuracy: 0.8482
+
+------ Run test on each galaxy morphology class separately ------
+
+Class 0 galaxies
+  Number of galaxies: 6755 (106 batches)
+	test Loss: 0.2357	 test Accuracy: 0.9202
+Class 1 galaxies
+  Number of galaxies: 7845 (123 batches)
+	test Loss: 0.3496	 test Accuracy: 0.8743
+Class 2 galaxies
+  Number of galaxies: 1471 (23 batches)
+	test Loss: 0.6587	 test Accuracy: 0.7322
+Class 3 galaxies
+  Number of galaxies: 3295 (52 batches)
+	test Loss: 0.2672	 test Accuracy: 0.9041
+Class 4 galaxies
+  Number of galaxies: 4148 (65 batches)
+	test Loss: 0.4263	 test Accuracy: 0.8488
+Class 5 galaxies
+  Number of galaxies: 6094 (96 batches)
+	test Loss: 0.4979	 test Accuracy: 0.8034
+Class 6 galaxies
+  Number of galaxies: 1176 (19 batches)
+	test Loss: 1.2891	 test Accuracy: 0.5417
+Class 7 galaxies
+  Number of galaxies: 407 (7 batches)
+	test Loss: 1.0326	 test Accuracy: 0.6683

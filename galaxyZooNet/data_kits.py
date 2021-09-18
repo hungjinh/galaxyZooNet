@@ -5,7 +5,7 @@ from sklearn.model_selection import train_test_split
 from torch.utils.data import Dataset, DataLoader
 import torchvision.transforms as transforms
 
-def data_split(file_csv, f_train=0.64, f_valid=0.16, f_test=0.20, random_state=None, stats=False):
+def data_split(file_csv, f_train=0.64, f_valid=0.16, f_test=0.20, random_state=None, stats=False, label_tag='label_8'):
     '''train-valid-test splits
         Args:
             file_csv (str) : path to the full catalog csv file
@@ -25,13 +25,13 @@ def data_split(file_csv, f_train=0.64, f_valid=0.16, f_test=0.20, random_state=N
     df_valid, df_test = train_test_split(df_temp, train_size=relative_f_valid, random_state=random_state)
     
     if stats:
-        df_stats=df.groupby(['label1']).label1.agg('count').to_frame('count').reset_index()
+        df_stats=df.groupby([label_tag])[label_tag].agg('count').to_frame('count').reset_index()
         df_stats['full'] = df_stats['count']/df_stats['count'].sum()
-        df_stats['train'] = df_train.groupby(['label1']).size()/df_train.groupby(['label1']).size().sum()
-        df_stats['valid'] = df_valid.groupby(['label1']).size()/df_valid.groupby(['label1']).size().sum()
-        df_stats['test'] = df_test.groupby(['label1']).size()/df_test.groupby(['label1']).size().sum()
+        df_stats['train'] = df_train.groupby([label_tag]).size()/df_train.groupby([label_tag]).size().sum()
+        df_stats['valid'] = df_valid.groupby([label_tag]).size()/df_valid.groupby([label_tag]).size().sum()
+        df_stats['test'] = df_test.groupby([label_tag]).size()/df_test.groupby([label_tag]).size().sum()
         
-        ax = df_stats.plot.bar(x='label1', y=['full', 'train', 'valid', 'test'], rot=0)
+        ax = df_stats.plot.bar(x=label_tag, y=['full', 'train', 'valid', 'test'], rot=0)
         ax.set_ylabel('class fraction')
     
     return df_train.reset_index(drop=True), df_valid.reset_index(drop=True), df_test.reset_index(drop=True)
