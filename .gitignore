@@ -3,9 +3,11 @@
 *.pkl
 *.npy
 *.csv
+*.pth
 notebooks/explore/*
 experiment/resnet50/run*
 test
+!gz2_predictions.csv
 
 # Compiled source
 *.o
