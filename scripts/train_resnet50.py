@@ -11,7 +11,7 @@ def main(args=None):
         Usage:
             run a test (on genie)
             >> cd /home/hhg/Research/galaxyClassify/repo/galaxyZooNet/
-            >> python3 galaxyZooNet/train_resnet50.py --config configs/resnet50_test.yaml > test.log
+            >> python3 scripts/train_resnet50.py --config configs/resnet50_test.yaml > test.log
     '''
     import argparse
 
