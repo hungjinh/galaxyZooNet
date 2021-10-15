@@ -4,7 +4,7 @@
 *.npy
 *.csv
 *.pth
-notebooks/explore/*
+notebooks/develop/*
 experiment/resnet50/run*
 test
 !gz2_predictions.csv
