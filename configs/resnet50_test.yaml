@@ -1,4 +1,4 @@
-exp_name   : test
+exp_name   : TestResNet50
 
 cuda       : True
 ngpu       : 1

@@ -1,6 +1,4 @@
-import os
 import time
-import pickle
 
 from galaxyZooNet.data_kits import data_split, GalaxyZooDataset, transforms_galaxy
 from torch.utils.data import DataLoader
@@ -10,69 +8,16 @@ import torch
 import torch.nn as nn
 import torchvision
 import torch.optim as optim
+from galaxyZooNet.base import BaseTrainer
 
-class ResNet50_Classifier():
+class ResNet50_Classifier(BaseTrainer):
     def __init__(self, config):
         
-        self._setup(config)
+        super().__init__(config)
         self._prepare_data()
         self._build_model(self.pretrained)
         self._define_loss(weight=self.class_weights)
         self._init_optimizer()
-
-    def _setup(self, config):
-        
-        print('\n------ Parameters ------\n')
-        for key in config:
-            setattr(self, key, config[key])
-            print(f'{key} :', config[key])
-
-        self.is_cuda = torch.cuda.is_available()
-        self.cuda = self.is_cuda & self.cuda
-        self.device = torch.device(f'cuda:{self.gpu_device}' if self.cuda else "cpu")
-
-        self.dir_exp = os.path.join(self.dir_output, self.exp_name)
-        self.file_trainInfo = os.path.join(self.dir_exp, 'trainInfo.pkl')
-        self.file_stateInfo = os.path.join(self.dir_exp, 'stateInfo.pth')
- 
-    def _init_storage(self):
-        '''initialize storage dictionary and directory to save training information'''
-        
-        # ------ create storage directory ------
-        print('\n------ Create experiment directory ------\n')
-        try: 
-            os.makedirs(self.dir_exp)
-        except (FileExistsError, OSError) as err:
-            raise FileExistsError(f'Default save directory {self.dir_exp} already exit. Change exp_name!') from err
-        print(f'Training information will be stored at :\n \t {self.dir_exp}')
-
-        # ------ trainInfo ------
-        save_key = ['train_loss', 'train_acc', 'valid_loss', 'valid_acc',
-                    'epoch_train_loss', 'epoch_train_acc', 'epoch_valid_loss', 'epoch_valid_acc', 'lr']
-        self.trainInfo = {}
-        for key in save_key:
-            self.trainInfo[key] = []
-
-        # ------ stateInfo ------
-        self.statInfo = {}
-    
-    def _save_checkpoint(self):
-
-        # ------ stateInfo ------
-        with open(self.file_trainInfo, 'wb') as handle:
-            pickle.dump(self.trainInfo, handle)
-        
-        self.statInfo['epoch'] = self.current_epoch
-        self.statInfo['model_state_dict'] = self.model.state_dict()
-        self.statInfo['optimizer_state_dict'] = self.optimizer.state_dict()
-        self.statInfo['best_epoch'] = self.best_epoch
-        self.statInfo['best_model_wts'] = self.best_model_wts
-        torch.save(self.statInfo, self.file_stateInfo)
-    
-    def _load_checkpoint(self):
-
-        self.statInfo = torch.load(self.file_stateInfo)
-        self.trainInfo = pickle.load(open(self.file_trainInfo, 'rb'))
 
     def _gen_Dset_Dloader(self, df, transform):
         dataset = GalaxyZooDataset(df, self.dir_image, transform=transform, label_tag=self.label_tag)
