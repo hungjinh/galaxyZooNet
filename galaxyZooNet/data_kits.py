@@ -94,3 +94,17 @@ def transforms_galaxy(input_size=224, norm_mean=[0.485, 0.456, 0.406], norm_std=
                                             transforms.Normalize(norm_mean, norm_std)])
 
     return transform
+
+
+def transforms_DCGAN(input_size=64, crop_size=224, norm_mean=[0.485, 0.456, 0.406], norm_std=[0.229, 0.224, 0.225]):
+    
+    transform = transforms.Compose([transforms.CenterCrop(crop_size),
+                                    transforms.Resize(input_size),
+                                    transforms.RandomRotation(90),
+                                    transforms.RandomHorizontalFlip(),
+                                    transforms.RandomVerticalFlip(),
+                                    transforms.RandomResizedCrop(
+                                        input_size, scale=(0.85, 1.0), ratio=(0.9, 1.1)),
+                                    transforms.ToTensor(),
+                                    transforms.Normalize(norm_mean, norm_std)])
+    return transform
