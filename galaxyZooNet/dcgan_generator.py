@@ -1,9 +1,11 @@
 import os
 import time
 import pickle
+import numpy as np
 import pandas as pd
 #from tqdm import tqdm
 from tqdm.notebook import tqdm
+import matplotlib.pyplot as plt
 
 from galaxyZooNet.base import BaseTrainer
 from galaxyZooNet.data_kits import GalaxyZooDataset, transforms_DCGAN
@@ -82,8 +84,17 @@ class DCGAN_Generator(BaseTrainer):
                 f'Default save directory {self.dir_exp} already exit. Change exp_name!') from err
         print(f'Training information will be stored at :\n \t {self.dir_exp}\n')
 
+        # ------ create 'genImgs' directory under self.dir_exp to store generator images
+        self.dir_genImgs = os.path.join(self.dir_exp, 'genImgs')
+        os.makedirs(self.dir_genImgs)
+        torch.save(self.fixed_noise, os.path.join(self.dir_genImgs, 'fixed_noise.pt'))
+
+        # ------ create 'checkpoints' directory to store 'self.statInfo_{epochID}.pth'
+        self.dir_checkpoints = os.path.join(self.dir_exp, 'checkpoints')
+        os.makedirs(self.dir_checkpoints)
+
         # ------ trainInfo ------
-        save_key = ['loss_G', 'loss_D', 'epoch_loss_G', 'epoch_loss_D', 'img_list', 'lr']
+        save_key = ['loss_G', 'loss_D', 'epoch_loss_G', 'epoch_loss_D', 'lr']
         self.trainInfo = {}
         for key in save_key:
             self.trainInfo[key] = []
@@ -102,12 +113,11 @@ class DCGAN_Generator(BaseTrainer):
             'G_state_dict': self.netG.state_dict(),
             'D_state_dict': self.netD.state_dict(),
             'G_optimizer': self.optimG.state_dict(),
-            'D_optimizer': self.optimD.state_dict(),
-            'fixed_noise': self.fixed_noise
+            'D_optimizer': self.optimD.state_dict()
         }
 
         #outfile_statInfo = os.path.join(self.dir_exp, f'stateInfo_{self.current_iteration}.pth')
-        outfile_statInfo = os.path.join(self.dir_exp, f'stateInfo_{self.current_epoch}.pth')
+        outfile_statInfo = os.path.join(self.dir_checkpoints, f'stateInfo_{self.current_epoch}.pth')
         torch.save(self.statInfo, outfile_statInfo)
 
     def _train_one_epoch(self):
@@ -159,7 +169,7 @@ class DCGAN_Generator(BaseTrainer):
 
             self.optimG.step()
 
-            # Pring training logs & output generating galaxies
+            # Training logs print out frequency
             if id_batch % 500 == 0:
                 print(
                     f'[{self.current_epoch+1}/{self.num_epochs} epoch] [{self.current_iteration+1} iter]\t loss_D: {loss_D.item():.3f} \t loss_G: {loss_G.item():.3f}\t D(x):{D_x:.3f} \t D(G(z)): {D_G_z1:.3f} / {D_G_z2:.3f}')
@@ -171,10 +181,11 @@ class DCGAN_Generator(BaseTrainer):
             running_loss_G += loss_G.item() * x.size(0)
             running_loss_D += loss_D.item() * x.size(0)
 
-            if id_batch % 500 == 0:
+            if self.current_iteration % self.freq_img == 0:
                 with torch.no_grad():
                     gen_out = self.netG(self.fixed_noise).detach().cpu()
-                self.trainInfo['img_list'].append(vutils.make_grid(gen_out, padding=2, normalize=True, nrow=self.nrow))
+                #self.trainInfo['img_list'].append(vutils.make_grid(gen_out, padding=2, normalize=True, nrow=self.nrow))
+                self._make_png(generator_output=gen_out, iterID=self.current_iteration, epochID=self.current_epoch)
 
             self.current_iteration += 1
 
@@ -204,6 +215,15 @@ class DCGAN_Generator(BaseTrainer):
             self._train_one_epoch()
             self._save_checkpoint()
 
+    def _make_png(self, generator_output, iterID, epochID):
+        fig = plt.figure(figsize=(6, 6.1))
+        plt.axis("off")
+        plt.title(f'iterID {iterID}  / epochID {epochID}')
+        plt.imshow(np.transpose(vutils.make_grid(generator_output, padding=2, normalize=True, nrow=self.nrow), (1, 2, 0)))
+        plt.tight_layout()
+        file_img = os.path.join(self.dir_genImgs, f'{iterID}_ep{epochID}.png')
+        fig.savefig(file_img, dpi=self.dpi, transparent=False, facecolor='white')
+        plt.close(fig)
 
     def gen_galaxy(self):
         pass
