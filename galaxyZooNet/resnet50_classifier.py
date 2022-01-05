@@ -1,14 +1,14 @@
 import time
+import copy
 
+from galaxyZooNet.base import BaseTrainer
 from galaxyZooNet.data_kits import data_split, GalaxyZooDataset, transforms_galaxy
 from torch.utils.data import DataLoader
 
-import copy
 import torch
 import torch.nn as nn
 import torchvision
 import torch.optim as optim
-from galaxyZooNet.base import BaseTrainer
 
 class ResNet50_Classifier(BaseTrainer):
     def __init__(self, config):
@@ -204,6 +204,6 @@ class ResNet50_Classifier(BaseTrainer):
 
 
 if __name__ == '__main__':
-    from utils import get_config_from_yaml
+    from galaxyZooNet.utils import get_config_from_yaml
     config = get_config_from_yaml('../configs/resnet50_test.yaml')
     classifier = ResNet50_Classifier(config=config)

@@ -49,12 +49,15 @@ class BaseTrainer():
         # ------ stateInfo ------
         with open(self.file_trainInfo, 'wb') as handle:
             pickle.dump(self.trainInfo, handle)
+        
+        self.statInfo = {
+            'epoch': self.current_epoch,
+            'model_state_dict': self.model.state_dict(), 
+            'optimizer_state_dict': self.optimizer.state_dict(),
+            'best_epoch': self.best_epoch,
+            'best_model_wts': self.best_model_wts,
+        }
 
-        self.statInfo['epoch'] = self.current_epoch
-        self.statInfo['model_state_dict'] = self.model.state_dict()
-        self.statInfo['optimizer_state_dict'] = self.optimizer.state_dict()
-        self.statInfo['best_epoch'] = self.best_epoch
-        self.statInfo['best_model_wts'] = self.best_model_wts
         torch.save(self.statInfo, self.file_stateInfo)
 
     def _load_checkpoint(self):
